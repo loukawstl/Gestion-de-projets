@@ -1,11 +1,32 @@
 <?php
 namespace App\Repository;
-use App\Classes\Host;
-use App\Connection\Connection;
+use App\Entity\Host;
+use App\Repostitory\Connection;
 use App\Classes\Project;
 
 class HostRepository
 {
+
+    private const HOSTS = ["host1"=>["desc"=>"un hote"],"host2"=>["desc"=>"un hote"]];
+
+    public static function isHost(string $slug): bool
+    {
+        if(isset(self::HOSTS[$slug])) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function getAllHosts(): array
+    {
+        return self::HOSTS;
+    }
+
+    public static function getHost(string $slug): array 
+    {
+        return self::HOSTS[$slug];
+    }
+    /*
 
     //liste les clients
     public static function listHost(){
@@ -142,4 +163,5 @@ class HostRepository
         $co->deconnectionBDD();
         return $myArray;
     }
+    */
 }

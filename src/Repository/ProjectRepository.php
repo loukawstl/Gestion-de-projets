@@ -1,11 +1,32 @@
 <?php
 namespace App\Repository;
-use App\Classes\Project;
-use App\Connection\Connection;
-use App\Classes\Customer;
-use  App\Classes\Host;
+use App\Entity\Project;
+use App\Repository\Connection;
+use App\Entity\Customer;
+use  App\Entity\Host;
 class ProjectRepository
 {
+
+    private const PROJECTS = ["project1"=>["desc"=>"un projet"],"project2"=>["desc"=>"un projet"]];
+
+    public static function isProject(string $slug): bool
+    {
+        if(isset(self::PROJECTS[$slug])) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function getAllProjects(): array
+    {
+        return self::PROJECTS;
+    }
+
+    public static function getProject(string $slug): array 
+    {
+        return self::PROJECTS[$slug];
+    }
+    /*
 
     //liste les clients
     public static function listProject()
@@ -142,4 +163,5 @@ class ProjectRepository
         $co->deconnectionBDD();
         return $myArray;
     }
+    */
 }

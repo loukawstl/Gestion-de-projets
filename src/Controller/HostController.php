@@ -8,44 +8,69 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\Host;
 use App\Repository\HostRepository;
 
-final class HomeController extends AbstractController
+final class HostController extends AbstractController
 {
-
-    #[Route(path:"/Hosts", name: "hosts")]
-    public  function hosts(): Response
+    #[Route(path:"/hosts", name:"hosts")]
+    public function hosts():Response
     {
-        return $this->render('home/hosts.html.twig',[
-            'hosts' => HostRepository::listHost(),
+        return $this->render('Host/Hosts.html.twig',[
+            'hosts'=> HostRepository::getAllHosts(),
         ]);
     }
 
-    #[Route(path:"/CreateHost", name:"host", methods: ['GET'])]
-    public function createHost(string $slug): Response
-    {
-        return $this->render('CreateHost./Host.html.twig', ["host" => HostRepository::getHost($slug)]);
-    }
-
-    #[Route(path:"/UpdateHost{slug}", name:"host", methods: ['GET'])]
-    public function updateHost(string $slug): Response
+    #[Route(path:"/host/{slug}", name:"host", methods:['GET'])]
+    public function host(string $slug):Response
     {
         if (HostRepository::isHost($slug)) {
-            return $this->render('UpdateHost./Host.html.twig', ["host" => HostRepository::getHost($slug)]);
+
+            return $this->render('Host/Host.html.twig', [
+                "host"=> HostRepository::getHost($slug),
+            ]);
         }
 
-        throw new NotFoundHttpException(sprintf('client avec slug %s non trouvé.', $slug));
+        throw new NotFoundHttpException(sprintf('the Host with slug %s dosent exists.', $slug));
     }
 
-    #[Route(path:"/DeleteHost{slug}", name:"host", methods: ['GET'])]
-    public function deleteHost(string $slug): Response
+    #[Route(path:"/deleteHost/{slug}", name:"deleteHost", methods:['GET'])]
+    public function deleteHost(string $slug):Response
     {
         if (HostRepository::isHost($slug)) {
-            return $this->render('CreateHost./Host.html.twig', ["host" => HostRepository::getHost($slug)]);
+
+            return $this->render('Host/DeleteHost.html.twig', [
+                "host"=> HostRepository::getHost($slug),
+            ]);
         }
 
-        throw new NotFoundHttpException(sprintf('client avec slug %s non trouvé.', $slug));
+        throw new NotFoundHttpException(sprintf('the Host with slug %s dosent exists.', $slug));
     }
+
+    #[Route(path:"/updateHost/{slug}", name:"updatehost", methods:['GET'])]
+    public function updateHost(string $slug):Response
+    {
+        if (HostRepository::isHost($slug)) {
+
+            return $this->render('Host/UpdateHost.html.twig', [
+                "host"=> HostRepository::getHost($slug),
+            ]);
+        }
+
+        throw new NotFoundHttpException(sprintf('the Host with slug %s dosent exists.', $slug));
+    }
+
+    #[Route(path:"/insertHost/{slug}", name:"inserthost", methods:['GET'])]
+    public function insertHost(string $slug):Response
+    {
+        if (HostRepository::isHost($slug)) {
+
+            return $this->render('Host/InsertHost.html.twig', [
+                "host"=> HostRepository::getHost($slug),
+            ]);
+        }
+
+        throw new NotFoundHttpException(sprintf('the Host with slug %s dosent exists.', $slug));
+    }
+
 
 }

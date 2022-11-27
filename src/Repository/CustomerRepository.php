@@ -1,11 +1,32 @@
 <?php
 namespace App\Repository;
-use App\Classes\Customer;
-use App\Connection\Connection;
-use App\Validators\Validator;
+use App\Entity\Customer;
+use App\Repository\Connection;
+
 
 class CustomerRepository
 {
+
+     private const CUSTOMERS = ["customer1"=>["desc"=>"un client"],"customer2"=>["desc"=>"un client"]];
+
+    public static function isCustomer(string $slug): bool
+    {
+        if(isset(self::CUSTOMERS[$slug])) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function getAllCustomers(): array
+    {
+        return self::CUSTOMERS;
+    }
+
+    public static function getCustomer(string $slug): array 
+    {
+        return self::CUSTOMERS[$slug];
+    }
+    /*
 
     //liste les clients
     public static function listCustomer(){
@@ -194,4 +215,5 @@ class CustomerRepository
         return $myArray;
 
     }
+    */
 }

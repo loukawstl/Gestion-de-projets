@@ -9,6 +9,7 @@ use Cocur\Slugify\Slugify as s;
 // https://github.com/cocur/slugify
 
 abstract class Validator{
+    /*
 
     public static function checkEmpty(string $data) : bool{
         if (!(v::notBlank()->validate($data))){
@@ -57,5 +58,5 @@ abstract class Validator{
             return false;
         }
     }
-
+    */
 }
