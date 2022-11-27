@@ -8,8 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use App\Entity\Article;
-use App\Repository\ArticleRepository;
+use App\Entity\Customer;
+use App\Repository\CustomerRepository;
 
 final class HomeController extends AbstractController
 {
