@@ -1,19 +1,19 @@
 <?php
 namespace App\Classes;
-use App\Connection\Connection;
+/*use App\Connection\Connection;
 use App\Interfaces\AllInterface;
 use App\Traits\HasId;
 use App\Traits\HasName;
 use App\Traits\HasNotes;
-use App\Traits\HasCode;
+use App\Traits\HasCode;*/
 
 
 class Customer implements AllInterface{
 
-    use HasId;
+    /*use HasId;
     use HasName;
     use HasNotes;
-    use HasCode;
+    use HasCode;*/
 
     private int $id;
     private string $code; 

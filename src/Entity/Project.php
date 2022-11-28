@@ -1,23 +1,23 @@
 <?php
 namespace App\Classes;
 
-use App\Classes\Host;
+/*use App\Classes\Host;
 use App\Classes\Customer;
 use App\Interfaces\AllInterface;
 use App\Traits\HasId;
 use App\Traits\HasName;
 use App\Traits\HasNotes;
-use App\Traits\HasCode;
+use App\Traits\HasCode;*/
 
 
 
 
 class Project implements AllInterface
 {
-    use HasId;
+    /*use HasId;
     use HasName;
     use HasNotes;
-    use HasCode;
+    use HasCode;*/
 
 
 

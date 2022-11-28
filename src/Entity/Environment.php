@@ -4,8 +4,8 @@ namespace App\Classes;
 use Project;
 class Environment implements AllInterface{
 
-    use HasId;
-    use HasName;
+    /*use HasId;
+    use HasName;*/
 
     private int $id; 
     private string $name;

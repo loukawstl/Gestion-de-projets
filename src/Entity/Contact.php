@@ -6,7 +6,7 @@ use Customer;
 
 class Contact implements AllInterface{
 
-    use HasId;
+    //use HasId;
 
     private int $id;
     private string $email; 
