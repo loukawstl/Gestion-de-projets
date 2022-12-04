@@ -1,40 +1,67 @@
 <?php
-namespace App\Classes;
-/*use App\Connection\Connection;
-use App\Interfaces\AllInterface;
-use App\Traits\HasId;
-use App\Traits\HasName;
-use App\Traits\HasNotes;
-use App\Traits\HasCode;*/
 
+namespace App\Entity;
 
-class Customer implements AllInterface{
+use App\Repository\ContactRepostory;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 
-    /*use HasId;
-    use HasName;
-    use HasNotes;
-    use HasCode;*/
+#[ORM\Entity(repositoryClass: CustomerRepository::class)]
+class Customer
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    private int $id;
-    private string $code; 
-    private string $name;
-    private string $notes;
+    #[ORM\Column(length: 255)]
+    private ?string $code = null;
 
-    public function __construct(int $id, string $code, string $name, string $notes)
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $notes = null;
+
+    public function getId(): ?int
     {
-        $this-> id = $id;
-        $this->code = $code;
-        $this->name = $name;
-        $this->notes = $notes;
+        return $this->id;
     }
 
-    public function echoAll(){
-        echo "<h2> Customer : </h2>";
-        echo "<ul>";
-        echo "<li>Id: " . $this->getId() . "</li>";
-        echo "<li>Code: " . $this->getCode() . "</li>";
-        echo "<li>Name: " . $this->getName() . "</li>";
-        echo "<li>Notes: " . $this->getNotes() . "</li>";
-        echo "</ul>";
+    public function getCode(): ?string
+    {
+        return $this->code;
     }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(string $notes): self
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
 }

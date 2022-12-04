@@ -1,41 +1,65 @@
 <?php
-namespace App\Classes;
-/*se App\Connection\Connection;
-use App\Interfaces\AllInterface;
-use App\Traits\HasId;
-use App\Traits\HasName;
-use App\Traits\HasNotes;
-use App\Traits\HasCode;*/
 
-class Host implements AllInterface{
+namespace App\Entity;
 
-    /*use HasId;
-    use HasName;
-    use HasNotes;
-    use HasCode;*/
+use App\Repository\HostRepository;
+use Doctrine\ORM\Mapping as ORM;
 
-    private int $id;
-    private string $code;
-    private string $name;
-    private string $notes;
-    
-    public function __construct(int $id, string $code, string $name, string $notes){   
-        $this->id = $id;
+#[ORM\Entity(repositoryClass: HostRepository::class)]
+class Host
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $code = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $notes = null;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(?string $notes): self
+    {
         $this->notes = $notes;
-    }
 
-    public function echoAll(){
-        echo "<h2> Host : </h2>";
-    echo "<ul>";
-    echo "<li>id : " . $this->getId() . "</li>";
-    echo "<li>code : " . $this->getCode() . "</li>";
-    echo "<li>nom : " . $this->getName() . "</li>";
-    echo "<li>notes : " . $this->getNotes() . "</li>";
-    echo "</ul>";
+        return $this;
     }
-    
 }
-
-?>

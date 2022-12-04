@@ -1,18 +1,29 @@
 <?php
+
 namespace App\Entity;
 
+use App\Repository\ContactRepostory;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 use Host;
 use Customer;
 
+#[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Contact implements AllInterface{
 
-    //use HasId;
-
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private int $id;
+    #[ORM\Column(length: 255)]
     private string $email; 
+    #[ORM\Column(length: 10)]
     private string $phoneNumber;
+    #[ORM\Column(type: bool)]
     private string $role;
+    #[ORM\Column(type: int)]
     private Host $host;
+    #[ORM\Column(type: int)]
     private Customer $customer;
 
     public function __construct(int $id, string $email, string $phoneNumber, string $role, Host $host, Customer $customer)

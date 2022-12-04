@@ -1,132 +1,174 @@
 <?php
-namespace App\Classes;
 
-/*use App\Classes\Host;
-use App\Classes\Customer;
-use App\Interfaces\AllInterface;
-use App\Traits\HasId;
-use App\Traits\HasName;
-use App\Traits\HasNotes;
-use App\Traits\HasCode;*/
+namespace App\Entity;
 
+use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 
-
-
-class Project implements AllInterface
+#[ORM\Entity(repositoryClass: ProjectRepository::class)]
+class Project
 {
-    /*use HasId;
-    use HasName;
-    use HasNotes;
-    use HasCode;*/
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $code = null;
 
-    private int $id;
-    private string $name;
-    private string $code;
-    private string $lastpassFolder;
-    private string $linkMockUps;
-    private bool $managedServer;
-    private string $note;
-    private Host $host;
-    private Customer $customer;
-    
-    public function __construct( int $id, string $name, string $code, string $lastpassFolder, string $linkMockUps, bool $managedServer, string $note, Host $host, Customer $customer)
+    #[ORM\Column(length: 255)]
+    private ?string $lastpassFolder = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $linkMockUps = null;
+
+    #[ORM\Column]
+    private ?bool $managedServer = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $notes = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Host $host = null;
+
+    #[ORM\ManyToOne(inversedBy: 'projects')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Customer $Customer = null;
+
+    public function __construct()
     {
-        $this->id = $id;
-        $this->name = $name;
-        $this->code = $code;
-        $this->lastpassFolder = $lastpassFolder;
-        $this->linkMockUps = $linkMockUps;
-        $this->managedServer = $managedServer;
-        $this->note = $note;
-        $this->host = $host;
-        $this->customer = $customer;
+        $this->customer = new ArrayCollection();
     }
-    public function getName(): string
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
     {
         return $this->name;
     }
-    public function setName(string $name): void
+
+    public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
-    public function getCode(): string
+
+    public function getCode(): ?string
     {
         return $this->code;
     }
-    public function setCode(string $code): void
+
+    public function setCode(string $code): self
     {
         $this->code = $code;
+
+        return $this;
     }
 
-    public function getLastpassFolder(): string
+    public function getLastpassFolder(): ?string
     {
         return $this->lastpassFolder;
     }
-    public function setLastPassFolder(string $lastPassFolder): void
+
+    public function setLastpassFolder(string $lastpassFolder): self
     {
-        $this->lastpassFolder = $lastPassFolder;
+        $this->lastpassFolder = $lastpassFolder;
+
+        return $this;
     }
 
-    public function getLinkMockUps(): string
+    public function getLinkMockUps(): ?string
     {
         return $this->linkMockUps;
     }
-    public function setLinkMockUps(string $linkMockUps): void
+
+    public function setLinkMockUps(string $linkMockUps): self
     {
         $this->linkMockUps = $linkMockUps;
+
+        return $this;
     }
 
-    public function getManagedServer(): bool
+    public function isManagedServer(): ?bool
     {
         return $this->managedServer;
     }
-    public function setManagedServer(bool $managedServer): void
+
+    public function setManagedServer(bool $managedServer): self
     {
         $this->managedServer = $managedServer;
+
+        return $this;
     }
 
-    public function getNotes(): string
+    public function getNotes(): ?string
     {
-        return $this->note;
-    }
-    public function setNote(string $note): void
-    {
-        $this->note = $note;
+        return $this->notes;
     }
 
-    public function getHost(): Host
+    public function setNotes(string $notes): self
+    {
+        $this->notes = $notes;
+
+        return $this;
+    }
+
+    public function getHost(): ?Host
     {
         return $this->host;
     }
 
-    public function setHost(Host $host): void
+    public function setHost(?Host $host): self
     {
         $this->host = $host;
+
+        return $this;
     }
 
-    public function getCustomer(): Customer
+    /**
+     * @return Collection<int, Customer>
+     */
+    public function getCustomer(): Collection
     {
         return $this->customer;
     }
 
-    public function setCustomer(Customer $customer): void
+    public function addCustomer(Customer $customer): self
     {
-        $this->customer = $customer;
+        if (!$this->customer->contains($customer)) {
+            $this->customer->add($customer);
+            $customer->setFd($this);
+        }
+
+        return $this;
     }
 
-    public function echoAll(){
-        echo "<h2> Project : </h2>";
-        echo "<ul>";
-        echo "<li>id : " . $this->getId() . "</li>";
-        echo "<li>code : " . $this->getName() . "</li>";
-        echo "<li>lastpassFolder : " . $this->getLastpassFolder() . "</li>";
-        echo "<li>lien mocks up : " . $this->getLinkMockUps() . "</li>";
-        echo "<li>serveur actif (bool) : " . $this->getManagedServer() . "</li>";
-        echo "<li>notes : " . $this->getNotes() . "</li>";
-        echo "<li>nom Host : " . $this->getHost()->getName() . "</li>";
-        echo "<li>nom Customer : " . $this->getCustomer()->getName() . "</li>";
-        echo "</ul>";
+    public function removeCustomer(Customer $customer): self
+    {
+        if ($this->customer->removeElement($customer)) {
+            // set the owning side to null (unless already changed)
+            if ($customer->getFd() === $this) {
+                $customer->setFd(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function setCustomer(?Customer $Customer): self
+    {
+        $this->Customer = $Customer;
+
+        return $this;
     }
 }
