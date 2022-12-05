@@ -24,20 +24,20 @@ class Project
     #[ORM\Column(length: 255)]
     private ?string $lastpassFolder = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255)] //peut etre null
     private ?string $linkMockUps = null;
 
-    #[ORM\Column]
-    private ?bool $managedServer = null;
+    #[ORM\Column] //peut etre null
+    private ?bool $managedServer = false;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255)] //peut etre null & doit etre text
     private ?string $notes = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Host::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Host $host = null;
 
-    #[ORM\ManyToOne(inversedBy: 'projects')]
+    #[ORM\ManyToOne(targetEntity: Customer::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Customer $Customer = null;
 
